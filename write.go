@@ -23,18 +23,16 @@ func (s jSender) Success() standardResponse {
 }
 
 // Error Set custom error message {"error": message}
-// If no status code is set upon calling Send(), status code
-// will automatically be set to 400
-func (s jSender) Error(message string) standardResponse {
-	return newStandardResponse(s.rw, 400, fmtErr(message))
+func (s jSender) Error(statusCode int, message string) standardResponse {
+	return newStandardResponse(s.rw, statusCode, fmtErr(message))
 }
 
 // Errorf Set custom formatted error message {"error": message}
 // If no status code is set upon calling Send(), status code
 // will automatically be set to 400
-func (s jSender) Errorf(format string, a ...interface{}) standardResponse {
+func (s jSender) Errorf(statusCode int, format string, a ...interface{}) standardResponse {
 	errMsg := fmtErr(fmt.Sprintf(format, a...))
-	return newStandardResponse(s.rw, 400, errMsg)
+	return newStandardResponse(s.rw, statusCode, errMsg)
 }
 
 func Response(w http.ResponseWriter) jSender {

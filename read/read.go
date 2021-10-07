@@ -1,4 +1,4 @@
-package jutils
+package read
 
 import (
 	"encoding/json"

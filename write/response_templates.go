@@ -4,13 +4,22 @@ import (
 	"net/http"
 )
 
-
 // Template Includes methods that have preset status code and json messages
 type Template struct {
-	rw 	http.ResponseWriter
+	rw http.ResponseWriter
 }
 
-// MissingParams 400 status {"error": "missing or invalid params"}
+// Forbidden 403 status {"error": "Forbidden"}
+func (t Template) Forbidden() sender {
+	return newResponseSender(t.rw, 403, fmtErr("Forbidden"))
+}
+
+// Unauthorized 401 status {"error": "Unauthorized"}
+func (t Template) Unauthorized() sender {
+	return newResponseSender(t.rw, 401, fmtErr("Unauthorized"))
+}
+
+// MissingParams 400 status {"error": "Missing or invalid params"}
 func (t Template) MissingParams() sender {
 	return newResponseSender(t.rw, 400, fmtErr("Missing or invalid params"))
 }
@@ -39,4 +48,3 @@ func (t Template) DBError() sender {
 func (t Template) JsonParseError() sender {
 	return newResponseSender(t.rw, 500, fmtErr("JSON badly formatted"))
 }
-
